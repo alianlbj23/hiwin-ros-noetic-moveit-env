@@ -2,7 +2,7 @@
 
 # --- 1. 配置變數 ---
 CONTAINER_NAME="hiwin_ros_gui"  # 容器名稱
-IMAGE_NAME="ros-noetic-moveit-hiwin:latest" # 您的映像名稱和標籤
+IMAGE_NAME="ghcr.io/alianlbj23/hiwin-ros-noetic-moveit-env:v0.0.4" # 您的映像名稱和標籤
 USER_ID=$(id -u)                # 獲取當前主機用戶ID
 GROUP_ID=$(id -g)               # 獲取當前主機用戶組ID
 HOME_DIR="/home/rosuser"        # 容器內用戶的家目錄
