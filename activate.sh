@@ -28,6 +28,7 @@ docker run --rm -it \
     -e DISPLAY="$DISPLAY" \
     -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v "$XAUTH_FILE":"$HOME_DIR/.Xauthority":rw \
+    -v "$(pwd)/scripts:/root/catkin_ws/scripts:rw" \
     --net=host \
     --privileged \
     \
