@@ -124,7 +124,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           # password: ${{ secrets.GITHUB_TOKEN }}  # You can use the default GitHub token
-          password: ${{ secrets.DOCKER_PAT }}  # Or you can use your pre-generated Personal Access Token
+          password: ${{ secrets.GITHUB_TOKEN }}  # Or you can use your pre-generated Personal Access Token
         # 2. Use command line
         # run: |
         #   docker login ${{ env.REGISTRY }} --username ${{ github.actor }} --password ${{ secrets.DOCKER_PAT }}
