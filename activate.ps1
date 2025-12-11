@@ -12,40 +12,55 @@ Write-Host "---------------------------------------------"
 
 # --- 2. AUTO SET DISPLAY IF NOT SET ---
 if (-not $env:DISPLAY) {
-    Write-Host "[INFO] DISPLAY is not set. Applying default setting: host.docker.internal:0.0"
+    Write-Host "[INFO] DISPLAY is not set. Using default: host.docker.internal:0.0"
     $env:DISPLAY = "host.docker.internal:0.0"
 }
-
 Write-Host "[INFO] Using DISPLAY = $($env:DISPLAY)"
 
-# --- 3. CHECK IF X SERVER IS RUNNING ---
-# We check if VcXsrv is running (most common)
-$vcxsrv = Get-Process -Name vcxsrv -ErrorAction SilentlyContinue
+# --- 3. Detect if VcXsrv is installed ---
+$possiblePaths = @(
+    "C:\Program Files\VcXsrv\vcxsrv.exe",
+    "C:\Program Files (x86)\VcXsrv\vcxsrv.exe"
+)
 
-if (-not $vcxsrv) {
+$installed = $possiblePaths | Where-Object { Test-Path $_ }
+
+if ($installed.Count -gt 0) {
+    Write-Host "[OK] VcXsrv installation detected." -ForegroundColor Green
+} else {
+    Write-Host "[WARN] VcXsrv does not seem to be installed." -ForegroundColor Yellow
+    Write-Host "       GUI may not display unless you install VcXsrv."
+    Write-Host "       Download: https://sourceforge.net/projects/vcxsrv/"
+    Write-Host ""
+}
+
+# --- 4. Check if VcXsrv is running ---
+$vcxsrv = Get-Process -Name "vcxsrv" -ErrorAction SilentlyContinue
+
+if ($vcxsrv) {
+    Write-Host "[OK] X Server is running (vcxsrv detected)." -ForegroundColor Green
+} else {
 
     Write-Host ""
     Write-Host "---------------------------------------------" -ForegroundColor Yellow
-    Write-Host "[ERROR] No X Server detected on Windows!" -ForegroundColor Red
+    Write-Host "[WARN] VcXsrv is installed but NOT running!" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "You must install and run an X11 server like VcXsrv to display GUI." -ForegroundColor Yellow
+    Write-Host "Please launch XLaunch (VcXsrv) before running this script." -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "Download VcXsrv from:" -ForegroundColor Cyan
-    Write-Host "https://sourceforge.net/projects/vcxsrv/" -ForegroundColor Cyan
+    Write-Host "How to start:" -ForegroundColor Cyan
+    Write-Host "  → Press Windows Key"
+    Write-Host "  → Search for: XLaunch"
+    Write-Host "  → Run it with:"
+    Write-Host "       - Display: 0"
+    Write-Host "       - Multiple windows"
+    Write-Host "       - Disable access control"
     Write-Host ""
-    Write-Host "After installing, launch VcXsrv with:" -ForegroundColor Yellow
-    Write-Host " - Display: 0"
-    Write-Host " - Disable access control (for testing)"
-    Write-Host " - Start in multi-window mode"
+    Write-Host "GUI applications may NOT appear until XLaunch is running."
     Write-Host "---------------------------------------------"
     Write-Host ""
-
-    exit 1
 }
 
-Write-Host "[OK] X Server detected (VcXsrv running)." -ForegroundColor Green
-
-# --- 4. RUN DOCKER CONTAINER ---
+# --- 5. Run Docker container ---
 docker run --rm -it `
     --name $ContainerName `
     -e DISPLAY=$env:DISPLAY `
