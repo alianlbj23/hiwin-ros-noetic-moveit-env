@@ -29,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-noetic-industrial-core \
     ros-noetic-industrial-robot-client \
     ros-noetic-industrial-robot-status-interface \
+    \
+    mongodb \
  && rm -rf /var/lib/apt/lists/*
 
 # rosdep 初始化（init 過會失敗，所以用 || 包起來）
