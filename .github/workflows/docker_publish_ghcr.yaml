@@ -23,6 +23,9 @@ env:
 jobs:
   build_and_publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     name: Build and Push Docker Image
 
     steps:
