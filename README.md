@@ -23,6 +23,15 @@ These libraries are built and included inside the Docker container so you can fo
 
 - **activate.sh / activate.ps1** - One-click start scripts with GUI-enabled Docker runtime
 
+## 💻 System Requirements
+
+- **Operating System**: This setup is supported on **Windows** and **Linux**.
+  - macOS users should use a virtual machine running a supported OS.
+- **Windows Users**: Before starting, you must download and run **Xming Server** to enable GUI support.
+  - [Download Xming here](https://sourceforge.net/projects/xming/)
+
+---
+
 ## 🚀 Quick Start (Recommended: Use Prebuilt Image)
 
 A prebuilt Docker image is available on GitHub Container Registry (GHCR).
@@ -42,13 +51,7 @@ docker pull ghcr.io/alianlbj23/hiwin-ros-noetic-moveit-env:latest
 ### Start the environment (GUI supported):
 
 ```bash
-./activate.sh
-```
-
-if your are using windows
-
-```bash
-./activate.ps1
+python ./activate.py
 ```
 
 ### Run MoveIt for HIWIN RA605
@@ -56,7 +59,7 @@ if your are using windows
 Inside the container or by calling the script directly:
 
 ```bash
-./scripts/ra605_710_moveit_activate.sh <robot_ip>
+python3 ./scripts/ra605_710_moveit_activate.py <robot_ip>
 ```
 
 ### 🏗 Optional: Build Docker Image Locally
